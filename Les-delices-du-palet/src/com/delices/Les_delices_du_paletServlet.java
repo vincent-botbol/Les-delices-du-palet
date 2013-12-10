@@ -8,6 +8,6 @@ public class Les_delices_du_paletServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, world");
+		resp.getWriter().println("Hello, connard");
 	}
 }
