@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 			resp.getWriter().println(t.getKey().getName());
 			resp.getWriter().println(t.getProperty("password"));
 			resp.getWriter().println(t.getProperty("mail"));
+			resp.getWriter().println("salopioo");
 
 		} else {
 			resp.getWriter().println(
