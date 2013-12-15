@@ -36,7 +36,7 @@ public class SubscribeServlet extends HttpServlet {
 			should_continue = false;
 		}
 		if (mail.isEmpty()) {
-			resp.getWriter().println("mail vide");
+			resp.getWriter().println("Mail vide");
 			should_continue = false;
 		}
 
@@ -62,9 +62,6 @@ public class SubscribeServlet extends HttpServlet {
 		datastore.put(e);
 
 		resp.getWriter().println("Compte créé");
-
-		// apparement les datastore c'est deprecated, faut utiliser les queries.
-		// vive google -> rien à foutre j'vais c'que j'veux.
 	}
 
 	@Override

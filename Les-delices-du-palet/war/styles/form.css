@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+form legend {
+	font-size: 18px;
+	color: teal;
+}
+
+form label {
+	width: 150px;
+	margin: 5px 5px 5px 0px;
+	float: left;
+}
+
+form input {
+	display: block;
+	margin: 5px 5px 5px 0px;
+}
