@@ -20,7 +20,7 @@
 			<label for="mail">Adresse Mail</label> <input type="email"
 					name="mail" />
 					
-			<input class="unlabeled" type="submit" />
+			<input class="unlabeled" type="submit" value="Envoyer"/>
 			</fieldset>
 		</form>
   </jsp:attribute>

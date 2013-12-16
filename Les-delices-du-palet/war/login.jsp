@@ -18,7 +18,7 @@
 			<label for="pwd">Mot de passe</label> <input type="password" id="pwd"
 				name="pwd" /> 
 					
-			<input class="unlabeled" type="submit" />
+			<input class="unlabeled" type="submit" value="Envoyer" />
 			</fieldset>
 		</form>
   	</jsp:attribute>
