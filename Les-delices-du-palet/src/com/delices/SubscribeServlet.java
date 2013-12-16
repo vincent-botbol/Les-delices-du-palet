@@ -13,6 +13,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 @SuppressWarnings("serial")
 public class SubscribeServlet extends HttpServlet {
@@ -42,7 +44,7 @@ public class SubscribeServlet extends HttpServlet {
 
 		if (!should_continue)
 			return;
-
+		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
@@ -59,6 +61,12 @@ public class SubscribeServlet extends HttpServlet {
 		e.setProperty("password", pwd);
 		e.setProperty("mail", mail);
 
+		/*
+		 * Login :
+		 * clé primaire - s
+		 * attributs : password - mail 
+		 */
+		
 		datastore.put(e);
 
 		resp.getWriter().println("Compte créé");

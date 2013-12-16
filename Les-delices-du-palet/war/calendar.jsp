@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
+	pageEncoding="UTF-8"%>
 
-<t:page_template>
-	<jsp:attribute name="headextra">
-	<title>Les Délices du Palet - Calendrier</title>
-  </jsp:attribute>
-  <jsp:attribute name="content">
-  	<h1>Calendar</h1>
-  	@TODO
-  </jsp:attribute>
-</t:page_template>
+<!DOCTYPE html>
+<html>
+<head>
+<%@include file="WEB-INF/templates/head.jsp"%>
+<title>Les Délices du Palet - Calendrier</title>
+</head>
+<body>
+	<%@include file="WEB-INF/templates/menu.jsp"%>
+	<div id="main-content">
+		<h1>Calendar</h1>
+		@TODO
+	</div>
+	<%@include file="WEB-INF/templates/footer.jsp"%>
+</body>
+</html>
