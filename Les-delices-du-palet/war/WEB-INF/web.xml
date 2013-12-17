@@ -7,7 +7,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>com.delices.LoginServlet</servlet-class>
+		<servlet-class>com.delices.services.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
@@ -16,7 +16,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>Subscribe</servlet-name>
-		<servlet-class>com.delices.SubscribeServlet</servlet-class>
+		<servlet-class>com.delices.services.SubscribeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Subscribe</servlet-name>

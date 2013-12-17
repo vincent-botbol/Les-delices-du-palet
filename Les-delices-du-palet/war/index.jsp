@@ -12,8 +12,6 @@
 </head>
 <body>
 	<%@include file="WEB-INF/templates/menu.jsp"%>
-
-
 	<div id="main-content">
 		<div class="left-panel">
 			<h1>Accueil</h1>

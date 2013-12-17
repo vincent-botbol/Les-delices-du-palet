@@ -1,4 +1,4 @@
-package com.delices;
+package com.delices.services;
 
 import java.io.IOException;
 
@@ -15,53 +15,59 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @SuppressWarnings("serial")
-public class LoginServlet extends HttpServlet {
+public class SubscribeServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		resp.setContentType("text/plain");
+		resp.getWriter().println("Hello, connard");
 
 		String s = req.getParameter("login");
 		String pwd = req.getParameter("pwd");
+		String mail = req.getParameter("mail");
 
 		boolean should_continue = true;
 
 		if (s.isEmpty()) {
-			resp.getWriter().println("pseudo vide");
+			resp.getWriter().println("Pseudo vide");
 			should_continue = false;
 		}
 		if (pwd.isEmpty()) {
-			resp.getWriter().println("pass vide");
+			resp.getWriter().println("Pass vide");
+			should_continue = false;
+		}
+		if (mail.isEmpty()) {
+			resp.getWriter().println("Mail vide");
 			should_continue = false;
 		}
 
 		if (!should_continue)
 			return;
-
+		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
-		Key k = KeyFactory.createKey("Login", s);
+		Key key = KeyFactory.createKey("Login", s);
 
-		Entity t = null;
 		try {
-			t = datastore.get(k);
-		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("On t'a pas trouvé");
+			datastore.get(key);
+			resp.getWriter().println("Utilisateur déjà inscrit");
 			return;
+		} catch (EntityNotFoundException e1) {
 		}
 
-		String stored_pass = (String) t.getProperty("password");
-		if (stored_pass.equals(pwd)) {
+		Entity e = new Entity(key);
+		e.setProperty("password", pwd);
+		e.setProperty("mail", mail);
 
-			resp.getWriter().println("Bienvenue, ");
-			resp.getWriter().println(t.getKey().getName());
-			resp.getWriter().println(t.getProperty("password"));
-			resp.getWriter().println(t.getProperty("mail"));
-			resp.getWriter().println("salopioo");
+		/*
+		 * Login :
+		 * clé primaire - s
+		 * attributs : password - mail 
+		 */
+		
+		datastore.put(e);
 
-		} else {
-			resp.getWriter().println(
-					"Sécurité maximum, tu vas pas nous niquer!");
-		}
+		resp.getWriter().println("Compte créé");
 	}
 
 	@Override

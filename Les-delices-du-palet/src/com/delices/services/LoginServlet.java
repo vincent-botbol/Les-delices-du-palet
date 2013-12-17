@@ -1,4 +1,4 @@
-package com.delices;
+package com.delices.services;
 
 import java.io.IOException;
 
@@ -13,63 +13,55 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 
 @SuppressWarnings("serial")
-public class SubscribeServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, connard");
 
 		String s = req.getParameter("login");
 		String pwd = req.getParameter("pwd");
-		String mail = req.getParameter("mail");
 
 		boolean should_continue = true;
 
 		if (s.isEmpty()) {
-			resp.getWriter().println("Pseudo vide");
+			resp.getWriter().println("pseudo vide");
 			should_continue = false;
 		}
 		if (pwd.isEmpty()) {
-			resp.getWriter().println("Pass vide");
-			should_continue = false;
-		}
-		if (mail.isEmpty()) {
-			resp.getWriter().println("Mail vide");
+			resp.getWriter().println("pass vide");
 			should_continue = false;
 		}
 
 		if (!should_continue)
 			return;
-		
+
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
-		Key key = KeyFactory.createKey("Login", s);
+		Key k = KeyFactory.createKey("Login", s);
 
+		Entity t = null;
 		try {
-			datastore.get(key);
-			resp.getWriter().println("Utilisateur déjà inscrit");
+			t = datastore.get(k);
+		} catch (EntityNotFoundException e) {
+			resp.getWriter().println("On t'a pas trouvé");
 			return;
-		} catch (EntityNotFoundException e1) {
 		}
 
-		Entity e = new Entity(key);
-		e.setProperty("password", pwd);
-		e.setProperty("mail", mail);
+		String stored_pass = (String) t.getProperty("password");
+		if (stored_pass.equals(pwd)) {
 
-		/*
-		 * Login :
-		 * clé primaire - s
-		 * attributs : password - mail 
-		 */
-		
-		datastore.put(e);
+			resp.getWriter().println("Bienvenue, ");
+			resp.getWriter().println(t.getKey().getName());
+			resp.getWriter().println(t.getProperty("password"));
+			resp.getWriter().println(t.getProperty("mail"));
+			resp.getWriter().println("salopioo");
 
-		resp.getWriter().println("Compte créé");
+		} else {
+			resp.getWriter().println(
+					"Sécurité maximum, tu vas pas nous niquer!");
+		}
 	}
 
 	@Override
