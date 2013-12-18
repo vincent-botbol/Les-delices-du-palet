@@ -1,4 +1,4 @@
-package datastore;
+package com.delices.datastore;
 
 public class RequestFactory {
 

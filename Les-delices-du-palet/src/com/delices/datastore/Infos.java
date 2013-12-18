@@ -1,4 +1,4 @@
-package datastore;
+package com.delices.datastore;
 
 public class Infos {
 	public final static String TEST_NHL_API_KEY = "hrbhfjmfrewem2pgmvvqxg7z";
