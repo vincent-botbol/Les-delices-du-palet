@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:include schemaLocation="common-statistics-v2.0.xsd"/>
+
+    <xs:complexType name="teamRecordType">
+        <xs:sequence>
+            <xs:element name="statistics" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="total" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="powerplay" type="scoringType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shorthanded" type="scoringType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="evenstrength" type="scoringType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="penalty" minOccurs="0" maxOccurs="1">
+                                        <xs:complexType>
+                                            <xs:attributeGroup ref="baseShootingAttributes"/>  
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                                <xs:attributeGroup ref="baseSkaterAttributes"/>
+                                <xs:attributeGroup ref="faceoffAttributes"/>
+                                <xs:attribute name="games_played" use="optional" type="xs:integer"/>
+                                <xs:attribute name="powerplays" use="optional" type="xs:integer"/>
+                                <xs:attribute name="team_penalties" use="optional" type="xs:integer"/> 
+                                <xs:attribute name="team_penalty_minutes" use="optional" type="xs:integer"/>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="average" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attributeGroup ref="baseAverageSkaterAttributes"/>
+                                <xs:attribute name="team_penalties" use="optional" type="xs:decimal"/> 
+                                <xs:attribute name="team_penalty_minutes" use="optional" type="xs:decimal"/> 
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="shootout" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:attributeGroup ref="baseShootingAttributes"/>
+                    <xs:attributeGroup ref="baseGoaltendingAttributes"/>
+                </xs:complexType>                
+            </xs:element>
+            <xs:element name="goaltending" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="total" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="powerplay" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shorthanded" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="evenstrength" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="penalty" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                </xs:sequence>
+                                <xs:attributeGroup ref="baseGoaltendingAttributes"/>
+                                <xs:attribute name="total_shots_against" use="optional" type="xs:integer"/> 
+                                <xs:attribute name="total_goals_against" use="optional" type="xs:integer"/> 
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="average" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attributeGroup ref="baseAverageGoaltendingAttributes"/>
+                            </xs:complexType>    
+                        </xs:element>
+                        <xs:element name="emptynet" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="powerplay" type="netType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shorthanded" type="netType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="evenstrength" type="netType" minOccurs="0" maxOccurs="1"/>
+                                </xs:sequence>
+                                <xs:attributeGroup ref="baseNetAttributes"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="playerRecordType">
+        <xs:sequence>
+            <xs:element name="statistics" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="total" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="powerplay" type="shootingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shorthanded" type="shootingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="evenstrength" type="shootingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="penalty" type="shootingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shootout" type="shootingType" minOccurs="0" maxOccurs="1"/>
+                                </xs:sequence>
+                                <xs:attributeGroup ref="baseSkaterAttributes"/>
+                                <xs:attributeGroup ref="faceoffAttributes"/>
+                                <xs:attribute name="games_played" use="optional" type="xs:integer"/>
+                                <xs:attribute name="games_scratched" use="optional" type="xs:integer"/>
+                                <xs:attribute name="winning_goals" use="optional" type="xs:integer"/>
+                                <xs:attribute name="plus_minus" use="optional" type="xs:integer"/>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="average" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attributeGroup ref="baseAverageSkaterAttributes"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="time_on_ice" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="total" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attribute name="shifts" use="optional" type="xs:integer"/>
+                                <xs:attribute name="total" use="optional" type="xs:string"/>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="average" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attribute name="shifts" use="optional" type="xs:decimal"/>
+                                <xs:attribute name="total" use="optional" type="xs:string"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="goaltending" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="total" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="powerplay" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shorthanded" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="evenstrength" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="penalty" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                    <xs:element name="shootout" type="goaltendingType" minOccurs="0" maxOccurs="1"/>
+                                </xs:sequence>
+                                <xs:attributeGroup ref="baseGoaltendingAttributes"/>
+                                <xs:attribute name="games_played" use="optional" type="xs:integer"/> 
+                                <xs:attribute name="shutouts" use="optional" type="xs:integer"/> 
+                                <xs:attribute name="wins" use="optional" type="xs:integer"/>
+                                <xs:attribute name="losses" use="optional" type="xs:integer"/>
+                                <xs:attribute name="overtime_losses" use="optional" type="xs:integer"/>
+                                <xs:attribute name="avg_goals_against" use="optional" type="xs:decimal"/>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="average" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:attributeGroup ref="baseAverageGoaltendingAttributes"/>
+                            </xs:complexType>    
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="timeOnIceType">
+        <xs:attribute name="shifts" use="optional" type="xs:decimal"/>
+        <xs:attribute name="total" use="optional" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:attributeGroup name="baseAverageSkaterAttributes">
+        <xs:attribute name="points" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="blocked_att" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="assists" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="shots" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="penalty_minutes" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="missed_shots" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="takeaways" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="hits" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="goals" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="giveaways" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="blocked_shots" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="penalties" use="optional" type="xs:decimal"/> 
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="baseAverageGoaltendingAttributes">
+        <xs:attribute name="goals_against" use="optional" type="xs:decimal"/> 
+        <xs:attribute name="shots_against" use="optional" type="xs:decimal"/> 
+    </xs:attributeGroup>
+    
+</xs:schema>

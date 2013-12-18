@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    
+    <xs:attributeGroup name="baseGameAttributes">
+        <xs:attribute name="id" use="required" type="xs:string"/>
+        <xs:attribute name="title" use="optional" type="xs:string"/>
+        <xs:attribute name="status" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="scheduled"/>
+                    <xs:enumeration value="created"/>
+                    <xs:enumeration value="inprogress"/>
+                    <xs:enumeration value="halftime"/>
+                    <xs:enumeration value="complete"/>
+                    <xs:enumeration value="closed"/>
+                    <xs:enumeration value="cancelled"/>
+                    <xs:enumeration value="postponed"/>
+                    <xs:enumeration value="delayed"/>
+                    <xs:enumeration value="unnecessary"/>
+                    <xs:enumeration value="time-tbd"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="coverage" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="full"/>
+                    <xs:enumeration value="extended_boxscore"/>
+                    <xs:enumeration value="boxscore"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="away_team" use="optional" type="xs:string"/>
+        <xs:attribute name="home_team" use="optional" type="xs:string"/>
+        <xs:attribute name="scheduled" use="optional" type="xs:dateTime"/>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="gameStateAttributes">
+        <xs:attribute name="clock" use="optional" type="xs:string"/>
+        <!-- <xs:attribute name="period" use="optional" type="xs:integer"/>  -->
+    </xs:attributeGroup>
+   
+    <xs:attributeGroup name="gameMetadataAttributes">
+        <xs:attribute name="attendance" use="optional" type="xs:integer"/>
+        <xs:attribute name="start_time" use="optional" type="xs:dateTime"/>
+        <xs:attribute name="end_time" use="optional" type="xs:dateTime"/>
+    </xs:attributeGroup>
+   
+    <xs:attributeGroup name="outcomeAttributes">
+        <xs:attribute name="outcome" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="win"/>
+                    <xs:enumeration value="loss"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:complexType name="periodScoreType">
+        <xs:attribute name="number" use="required" type="xs:integer"/>
+        <xs:attribute name="points" use="optional" type="xs:integer"/>
+        <xs:attribute name="sequence" use="required" type="xs:integer"/>
+    </xs:complexType>
+
+</xs:schema>

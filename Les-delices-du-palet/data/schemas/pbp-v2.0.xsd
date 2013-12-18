@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:p="http://feed.elasticstats.com/schema/hockey/pbp-v2.0.xsd"
+	targetNamespace="http://feed.elasticstats.com/schema/hockey/pbp-v2.0.xsd"
+	elementFormDefault="qualified">
+
+	<xs:include schemaLocation="common-v2.0.xsd" />
+	<xs:include schemaLocation="common-game-v2.0.xsd" />
+
+	<xs:complexType name="gameType">
+		<xs:sequence>
+			<xs:element name="scoring" type="p:scoringType" minOccurs="0"
+				maxOccurs="1" />
+
+			<xs:element name="period" type="p:periodType" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="overtime" type="p:periodType" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="shootout" type="p:periodType" minOccurs="0"
+				maxOccurs="1" />
+		</xs:sequence>
+		<xs:attributeGroup ref="p:baseGameAttributes" />
+		<xs:attributeGroup ref="p:gameStateAttributes" />
+		<xs:attributeGroup ref="p:gameMetadataAttributes" />
+	</xs:complexType>
+
+	<xs:element name="game" type="p:gameType" />
+
+	<xs:complexType name="scoringType">
+		<xs:sequence>
+			<xs:element name="home" type="p:teamScoringType"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="away" type="p:teamScoringType"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="teamScoringType">
+		<xs:attributeGroup ref="p:baseTeamAttributes" />
+		<xs:attribute name="points" use="required" type="xs:integer" />
+	</xs:complexType>
+
+	<xs:complexType name="periodType">
+		<xs:sequence>
+			<xs:element name="scoring" type="p:scoringType" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="events" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="event" type="p:eventType" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" use="required" type="xs:string" />
+		<xs:attribute name="number" use="required" type="xs:integer" />
+		<xs:attribute name="sequence" use="required" type="xs:integer" />
+	</xs:complexType>
+
+	<xs:complexType name="eventType">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" minOccurs="0"
+				maxOccurs="1" />
+			<xs:element name="attribution" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:attributeGroup ref="p:baseTeamAttributes" />
+					<xs:attribute name="team_goal" use="optional">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="left" />
+								<xs:enumeration value="right" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="location" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="coord_x" use="required" type="xs:integer" />
+					<xs:attribute name="coord_y" use="required" type="xs:integer" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="statistics" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="powerplay" type="p:statisticsType" />
+						<xs:element name="faceoff">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="p:statisticsType">
+										<xs:attribute name="win" use="optional" type="xs:boolean" />
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="shot">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="p:statisticsType">
+										<xs:attribute name="goal" use="optional" type="xs:boolean" />
+										<xs:attribute name="penalty" use="optional" type="xs:boolean" />
+										<xs:attribute name="shootout" use="optional"
+											type="xs:boolean" />
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="shotagainst">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="p:statisticsType">
+										<xs:attribute name="goal" use="optional" type="xs:boolean" />
+										<xs:attribute name="penalty" use="optional" type="xs:boolean" />
+										<xs:attribute name="shootout" use="optional"
+											type="xs:boolean" />
+										<xs:attribute name="saved" use="optional" type="xs:boolean" />
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="emptynetgoal" type="p:statisticsType" />
+						<xs:element name="shotmissed">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="p:statisticsType">
+										<xs:attribute name="penalty" use="optional" type="xs:boolean" />
+										<xs:attribute name="shootout" use="optional"
+											type="xs:boolean" />
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="attemptblocked" type="p:statisticsType" />
+						<xs:element name="block" type="p:statisticsType" />
+						<xs:element name="assist" type="p:statisticsType" />
+						<xs:element name="hit" type="p:statisticsType" />
+						<xs:element name="giveaway" type="p:statisticsType" />
+						<xs:element name="takeaway" type="p:statisticsType" />
+						<xs:element name="penalty">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="p:statisticsType">
+										<xs:attribute name="minutes" use="optional" type="xs:integer" />
+										<xs:attribute name="severity" use="optional">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Minor" />
+													<xs:enumeration value="Major" />
+													<xs:enumeration value="Double Minor" />
+													<xs:enumeration value="Misconduct" />
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" use="required" type="xs:string" />
+		<xs:attribute name="clock" use="optional" type="xs:string" />
+		<xs:attribute name="event_type" use="required" type="xs:string" />
+		<xs:attribute name="zone" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="neutral" />
+					<xs:enumeration value="offensive" />
+					<xs:enumeration value="defensive" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="updated" use="optional" type="xs:dateTime" />
+	</xs:complexType>
+
+	<xs:complexType name="statisticsType">
+		<xs:sequence>
+			<xs:element name="team" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="id" use="required" type="xs:string" />
+					<xs:attribute name="market" use="optional" type="xs:string" />
+					<xs:attribute name="name" use="optional" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="player" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="id" use="required" type="xs:string" />
+					<xs:attribute name="full_name" use="optional" type="xs:string" />
+					<xs:attribute name="jersey_number" use="optional"
+						type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="strength" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="shorthanded" />
+					<xs:enumeration value="powerplay" />
+					<xs:enumeration value="even" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+</xs:schema>

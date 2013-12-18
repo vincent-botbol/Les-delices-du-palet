@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:s="http://feed.elasticstats.com/schema/hockey/nhl/standings-v2.0.xsd"
+           targetNamespace="http://feed.elasticstats.com/schema/hockey/nhl/standings-v2.0.xsd"
+           elementFormDefault="qualified" >
+
+  <xs:include schemaLocation="common-v2.0.xsd"/>
+  
+  <xs:complexType name="leagueType">
+    <xs:sequence>
+      <xs:element name="season" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="conference" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="division" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="team" type="s:teamRecordType" minOccurs="0" maxOccurs="unbounded"/>
+                      </xs:sequence>
+                      <xs:attributeGroup ref="s:baseOrganizationAttributes" />
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>  
+                <xs:attributeGroup ref="s:baseOrganizationAttributes" />
+              </xs:complexType> 
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="id" use="required" type="xs:string"/>
+          <xs:attribute name="type" use="required" type="xs:string"/>
+          <xs:attribute name="year" use="required" type="xs:integer"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="s:baseOrganizationAttributes"/>
+  </xs:complexType>
+
+  <xs:element name="league" type="s:leagueType" />
+ 
+  <xs:complexType name="teamRecordType">
+    <xs:sequence>
+      <xs:element name="streak">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="loss" type="s:streakRecordType" maxOccurs="1"/>
+            <xs:element name="win"  type="s:streakRecordType" maxOccurs="1"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="records" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="atlantic" type="s:recordType"/>
+            <xs:element name="central" type="s:recordType"/>
+            <xs:element name="conference" type="s:recordType"/>
+            <xs:element name="division" type="s:recordType"/>
+            <xs:element name="home" type="s:recordType"/>
+            <xs:element name="last_10" type="s:recordType"/>
+            <xs:element name="last_10_home" type="s:recordType"/>
+            <xs:element name="last_10_road" type="s:recordType"/>
+            <xs:element name="northeast" type="s:recordType"/>
+            <xs:element name="northwest" type="s:recordType"/>
+            <xs:element name="pacific" type="s:recordType"/>
+            <xs:element name="road" type="s:recordType"/>
+            <xs:element name="southeast" type="s:recordType"/>
+            <xs:element name="metro" type="s:recordType"/>
+            <xs:element name="metropolitan" type="s:recordType" />
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="s:baseTeamAttributes" />
+    <xs:attributeGroup ref="s:recordAttributes" />
+    <xs:attribute name="games_played" use="optional" type="xs:integer" />
+    <xs:attribute name="points" use="optional" type="xs:integer"/> 
+    <xs:attribute name="regulation_wins" use="optional" type="xs:integer"/> 
+    <xs:attribute name="shootout_wins" use="optional" type="xs:integer"/> 
+    <xs:attribute name="shootout_losses" use="optional" type="xs:integer"/> 
+    <xs:attribute name="goals_for" use="optional" type="xs:integer"/> 
+    <xs:attribute name="goals_against" use="optional" type="xs:integer"/> 
+    <xs:attribute name="goal_diff" use="optional" type="xs:integer"/> 
+    <xs:attribute name="powerplays" use="optional" type="xs:integer"/> 
+    <xs:attribute name="powerplay_goals" use="optional" type="xs:integer"/> 
+    <xs:attribute name="powerplay_pct" use="optional" type="xs:decimal"/> 
+    <xs:attribute name="powerplays_against" use="optional" type="xs:integer"/> 
+    <xs:attribute name="powerplay_goals_against" use="optional" type="xs:integer"/> 
+    <xs:attribute name="penalty_killing_pct" use="optional" type="xs:decimal"/> 
+  </xs:complexType>
+ 
+  <xs:complexType name="streakRecordType">
+    <xs:attribute name="length" use="required" type="xs:integer"/>
+  </xs:complexType>
+  
+  <xs:attributeGroup name="recordAttributes">
+    <xs:attribute name="wins" use="required" type="xs:integer"/>
+    <xs:attribute name="losses" use="required" type="xs:integer"/>
+    <xs:attribute name="overtime_losses" use="optional" type="xs:integer" />
+    <xs:attribute name="win_pct" use="required" type="xs:decimal"/>
+  </xs:attributeGroup>
+  
+  <xs:complexType name="recordType">
+    <xs:attributeGroup ref="s:recordAttributes"/>
+  </xs:complexType>
+ 
+</xs:schema>

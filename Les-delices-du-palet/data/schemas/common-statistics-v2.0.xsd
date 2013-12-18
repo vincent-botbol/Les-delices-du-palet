@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:attributeGroup name="baseShootingAttributes">
+        <xs:attribute name="goals" use="optional" type="xs:integer"/> 
+        <xs:attribute name="assists" use="optional" type="xs:integer"/> 
+        <xs:attribute name="shots" use="optional" type="xs:integer"/> 
+        <xs:attribute name="missed_shots" use="optional" type="xs:integer"/> 
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="baseNetAttributes">
+        <xs:attribute name="shots_against" use="optional" type="xs:integer"/> 
+        <xs:attribute name="goals_against" use="optional" type="xs:integer"/> 
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="baseGoaltendingAttributes">
+        <xs:attributeGroup ref="baseNetAttributes"/>
+        <xs:attribute name="saves" use="optional" type="xs:integer"/> 
+        <xs:attribute name="saves_pct" use="optional" type="xs:decimal"/>     
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="baseSkaterAttributes">
+        <xs:attributeGroup ref="baseShootingAttributes"/>
+        
+        <xs:attribute name="penalties" use="optional" type="xs:integer"/> 
+        <xs:attribute name="penalty_minutes" use="optional" type="xs:integer"/> 
+        <xs:attribute name="blocked_att" use="optional" type="xs:integer"/> 
+        <xs:attribute name="hits" use="optional" type="xs:integer"/> 
+        <xs:attribute name="giveaways" use="optional" type="xs:integer"/> 
+        <xs:attribute name="takeaways" use="optional" type="xs:integer"/> 
+        <xs:attribute name="blocked_shots" use="optional" type="xs:integer"/> 
+        <xs:attribute name="points" use="optional" type="xs:integer"/>
+        <xs:attribute name="shooting_pct" use="optional" type="xs:decimal"/>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="faceoffAttributes">
+        <xs:attribute name="faceoffs_won" use="optional" type="xs:integer"/> 
+        <xs:attribute name="faceoffs_lost" use="optional" type="xs:integer"/> 
+        <xs:attribute name="faceoffs" use="optional" type="xs:integer"/> 
+        <xs:attribute name="faceoff_win_pct" use="optional" type="xs:decimal"/>  
+    </xs:attributeGroup>
+    
+    <xs:complexType name="scoringType">
+        <xs:attributeGroup ref="baseShootingAttributes"/>
+        <xs:attributeGroup ref="faceoffAttributes"/>
+    </xs:complexType>
+    
+    <xs:complexType name="goaltendingType">
+        <xs:attributeGroup ref="baseGoaltendingAttributes"/>
+    </xs:complexType>
+    
+    <xs:complexType name="netType">
+        <xs:attributeGroup ref="baseNetAttributes"/>
+    </xs:complexType> 
+    
+    <xs:complexType name="shootingType">
+        <xs:attributeGroup ref="baseShootingAttributes"/>
+    </xs:complexType>
+    
+    
+</xs:schema>

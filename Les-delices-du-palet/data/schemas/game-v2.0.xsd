@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:g="http://feed.elasticstats.com/schema/hockey/game-v2.0.xsd" targetNamespace="http://feed.elasticstats.com/schema/hockey/game-v2.0.xsd" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common-v2.0.xsd"/>
+  <xs:include schemaLocation="common-game-v2.0.xsd"/>
+  <xs:include schemaLocation="common-statistics-v2.0.xsd"/>
+
+  <xs:complexType name="gameType">
+    <xs:sequence>
+      <xs:element name="venue" type="g:venueType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="team" type="g:teamType" minOccurs="0" maxOccurs="2"/>
+      <xs:element name="officials" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="official" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attributeGroup ref="g:basePersonnelAttributes"/>
+                <xs:attribute name="assignment" use="optional" type="xs:string"/>
+                <xs:attribute name="experience" use="optional" type="xs:string"/>
+                <xs:attribute name="number" use="optional" type="xs:string"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="g:baseGameAttributes"/>
+    <xs:attributeGroup ref="g:gameStateAttributes"/>
+    <xs:attributeGroup ref="g:gameMetadataAttributes"/>
+  </xs:complexType>
+
+  <xs:element name="game" type="g:gameType"/>
+
+  <xs:complexType name="teamType">
+    <xs:sequence>
+      <xs:element name="scoring">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="period" type="g:periodScoreType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="overtime" type="g:periodScoreType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="shootout" type="g:periodScoreType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:choice>
+        <xs:element name="leaders" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="points" type="g:leaderType" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="goals" type="g:leaderType" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="assists" type="g:leaderType" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:sequence>
+          <xs:element name="statistics" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="powerplay" type="g:scoringType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="shorthanded" type="g:scoringType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="evenstrength" type="g:scoringType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="penalty" minOccurs="0" maxOccurs="1">
+                  <xs:complexType>
+                    <xs:attributeGroup ref="g:baseShootingAttributes"/>  
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attributeGroup ref="g:baseSkaterAttributes"/>
+              <xs:attributeGroup ref="g:faceoffAttributes"/>
+              <xs:attribute name="powerplays" use="optional" type="xs:integer"/>
+              <xs:attribute name="team_penalties" use="optional" type="xs:integer"/> 
+              <xs:attribute name="team_penalty_minutes" use="optional" type="xs:integer"/> 
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="shootout" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+              <xs:attributeGroup ref="g:baseShootingAttributes"/>
+              <xs:attributeGroup ref="g:baseGoaltendingAttributes"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="goaltending" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="powerplay" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="shorthanded" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="evenstrength" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="penalty" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="emptynet">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="powerplay" type="g:netType" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="shorthanded" type="g:netType" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="evenstrength" type="g:netType" minOccurs="0" maxOccurs="1"/>
+                    </xs:sequence>
+                    <xs:attributeGroup ref="g:baseNetAttributes"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attributeGroup ref="g:baseGoaltendingAttributes"/>
+              <xs:attribute name="total_shots_against" use="optional" type="xs:integer"/> 
+              <xs:attribute name="total_goals_against" use="optional" type="xs:integer"/> 
+            </xs:complexType> 
+          </xs:element>          
+          <xs:element name="players" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="player" type="g:playerType" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attributeGroup ref="g:baseTeamAttributes"/>
+    <xs:attribute name="points" use="required" type="xs:integer"/>
+  </xs:complexType>
+  
+  <xs:complexType name="playerType">
+    <xs:sequence>
+      <xs:element name="statistics" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="powerplay" type="g:shootingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shorthanded" type="g:shootingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="evenstrength" type="g:shootingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="penalty" type="g:shootingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shootout" type="g:shootingType" minOccurs="0" maxOccurs="1"/>            
+          </xs:sequence>
+          <xs:attributeGroup ref="g:baseSkaterAttributes"/>
+          <xs:attributeGroup ref="g:faceoffAttributes"/>
+          <xs:attribute name="winning_goal" use="optional" type="xs:boolean"/>
+          <xs:attribute name="plus_minus" use="optional" type="xs:integer"/>
+        </xs:complexType>  
+      </xs:element>
+      <xs:element name="time_on_ice" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:attribute name="shifts" use="optional" type="xs:integer"/>
+          <xs:attribute name="powerplay" use="optional" type="xs:string"/>
+          <xs:attribute name="shorthanded" use="optional" type="xs:string"/>
+          <xs:attribute name="evenstrength" use="optional" type="xs:string"/>
+          <xs:attribute name="avg" use="optional" type="xs:string"/>
+          <xs:attribute name="total" use="optional" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="goaltending" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="powerplay" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shorthanded" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="evenstrength" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="penalty" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shootout" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="periods" minOccurs="0" maxOccurs="1">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="period" type="g:periodType" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>  
+            </xs:element>
+          </xs:sequence>
+          <xs:attributeGroup ref="g:baseGoaltendingAttributes"/>
+          <xs:attribute name="shutout" use="optional" type="xs:boolean"/>
+          <xs:attribute name="credit" use="optional">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="none"/>
+                <xs:enumeration value="win"/>
+                <xs:enumeration value="loss"/>
+                <xs:enumeration value="overtime_loss"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="g:basePlayerAttributes"/>
+    <xs:attribute name="played" use="optional" type="xs:boolean"/>
+    <xs:attribute name="scratched" use="optional" type="xs:boolean"/>
+  </xs:complexType>
+  
+  <xs:complexType name="periodType">
+    <xs:sequence>
+      <xs:element name="powerplay" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="shorthanded" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="evenstrength" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="penalty" type="g:goaltendingType" minOccurs="0" maxOccurs="1"/>      
+    </xs:sequence>
+    <xs:attributeGroup ref="g:baseGoaltendingAttributes"/>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="number" use="required" type="xs:integer"/>
+    <xs:attribute name="sequence" use="required" type="xs:integer"/>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="REG"/>
+          <xs:enumeration value="OT"/>
+          <xs:enumeration value="SO"/>
+        </xs:restriction>
+      </xs:simpleType>      
+    </xs:attribute>    
+  </xs:complexType>
+  
+  <xs:complexType name="leaderType">
+    <xs:sequence>
+      <xs:element name="player" type="g:playerType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+ 
+</xs:schema>
