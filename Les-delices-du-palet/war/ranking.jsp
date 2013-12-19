@@ -10,8 +10,12 @@
 <body>
 	<%@include file="WEB-INF/templates/menu.jsp"%>
 	<div id="main-content">
-		<h1>Ranking</h1>
-		@TODO
+		<div class="left-panel">
+			<h1>Ranking</h1>
+			@TODO
+		</div>
+		<%@include file="WEB-INF/templates/dayMatches.jsp"%>
+		<div class="clear"></div>
 	</div>
 	<%@include file="WEB-INF/templates/footer.jsp"%>
 </body>

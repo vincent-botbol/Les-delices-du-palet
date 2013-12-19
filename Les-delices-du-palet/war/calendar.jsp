@@ -12,19 +12,24 @@
 <body>
 	<%@include file="WEB-INF/templates/menu.jsp"%>
 	<div id="main-content">
-		<h1>Calendar</h1>
-		<%
-			List<Match> matchs = new ArrayList<>();
+		<div class="left-panel">
+			<h1>Calendar</h1>
+			<%
+				List<Match> matchs = new ArrayList<Match>();
+			
+				for (int i=0;i<5;i++) {
+			%>
+					<div class="calendar-match">
+						 <%="Match" + i%>
+					</div>
+			<%
+				}
+			%>
+		</div>
 		
-			for (int i=0;i<5;i++) {
-		%>
-				<div class="calendar-match">
-					<%="Match" + i%>
-				</div>
-		<%
-			}
-		%>
-		@TODO
+		<%@include file="WEB-INF/templates/dayMatches.jsp"%>
+		<div class="clear"></div>
+		
 	</div>
 	<%@include file="WEB-INF/templates/footer.jsp"%>
 </body>
