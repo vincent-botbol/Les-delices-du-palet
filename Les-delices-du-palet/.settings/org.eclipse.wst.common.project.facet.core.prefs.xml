@@ -1,7 +1,7 @@
 <root>
   <facet id="jpt.jaxb">
     <node name="classgen">
-      <attribute name="package" value="com.delices.datastore.jaxb.transfers"/>
+      <attribute name="package" value="com.delices.datastore.jaxb.hierarchy"/>
     </node>
   </facet>
 </root>
