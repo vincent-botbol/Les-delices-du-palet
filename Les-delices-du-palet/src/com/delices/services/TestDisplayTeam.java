@@ -1,51 +1,35 @@
 package com.delices.services;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.delices.datastore.jaxb.hierarchy.ConferenceType;
-import com.delices.datastore.jaxb.hierarchy.DivisionType;
-import com.delices.datastore.jaxb.hierarchy.LeagueType;
-import com.delices.datastore.jaxb.hierarchy.TeamType;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.delices.datastore.PMF;
+import com.delices.datastore.contents.Team;
 
 @SuppressWarnings("serial")
 public class TestDisplayTeam extends HttpServlet {
+	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
-		Key key = KeyFactory.createKey("Teams", "NHL");
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Entity e;
-		try {
-			e = ds.get(key);
-		} catch (EntityNotFoundException e1) {
-			resp.getWriter().println(
-					"Error - entity not found : " + e1.getMessage());
-			return;
+		pm.currentTransaction().begin();
+
+		Query q = pm.newQuery(Team.class);
+		for (Team t : (List<Team>) q.execute()) {
+			resp.getWriter().println(t.getName());
 		}
-		LeagueType l = (LeagueType)e.getProperty("Team");
-		
-		resp.getWriter().println(l.getName());
-		for (ConferenceType c : l.getConference()){
-			resp.getWriter().println("  Conference : " + c.getName());
-			for (DivisionType d : c.getDivision()){
-				resp.getWriter().println("    Division : " + d.getName());
-				for (TeamType t : d.getTeam()){
-					resp.getWriter().println("      Team : " + t.getName());
-				}
-			}
-		}
+
+		pm.currentTransaction().commit();
+		pm.close();
 
 		resp.getWriter().println("done");
 	}

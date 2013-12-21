@@ -21,5 +21,5 @@ public abstract class DataUpdater<T> {
 		return st.getValue();
 	}
 
-	abstract void updateContent();
+	abstract void updateContent() throws UpdateFailureException;
 }

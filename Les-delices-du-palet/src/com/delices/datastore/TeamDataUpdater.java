@@ -1,63 +1,67 @@
 package com.delices.datastore;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import javax.jdo.PersistenceManager;
 
+import com.delices.datastore.contents.Team;
+import com.delices.datastore.jaxb.hierarchy.ConferenceType;
+import com.delices.datastore.jaxb.hierarchy.DivisionType;
 import com.delices.datastore.jaxb.hierarchy.LeagueType;
+import com.delices.datastore.jaxb.hierarchy.TeamType;
 import com.delices.utils.Logger;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class TeamDataUpdater extends DataUpdater<LeagueType> {
 
-	/**
-	 * Met à jour les équipes dans la table.
-	 * 
-	 * Key : (Teams, NHL)
-	 * 
-	 * contenu => entity.league
-	 * 
-	 */
-
 	@Override
-	public void updateContent() {
+	public void updateContent() throws UpdateFailureException {
 		URL s = null;
 		try {
 			s = UrlFactory.createLeagueHierarchyRequest(Infos.TEST_NHL_API_KEY);
 		} catch (MalformedURLException e) {
-			Logger.writeLog("URL mal formée : " + e.getMessage());
+			String msg = "URL mal formée : " + e.getMessage();
+			Logger.writeLog(msg);
+			throw new UpdateFailureException(msg);
 		}
-
-		// try (InputStream in = RequestMaker.makeRequest(s)) {
-		// temp test
-		try (InputStream in = new FileInputStream("hierarchy.xml")) {
+		try (InputStream in = RequestMaker.makeRequest(s)) {
+			// try (InputStream in = new FileInputStream("hierarchy.xml")) {
 			if (in != null) {
 				LeagueType league = super.unmarshallContent(in, "hierarchy");
 
-				DatastoreService datastore = DatastoreServiceFactory
-						.getDatastoreService();
-
-				Key key = KeyFactory.createKey("Teams", "NHL");
-
-				Entity e = new Entity(key);
-				// Todo Faire marcher ça. (putain de google)
-				e.setProperty("Team", league);
-				datastore.put(e);
+				List<Team> l = new ArrayList<>();
+				for (ConferenceType c : league.getConference()) {
+					String confName = c.getName();
+					for (DivisionType d : c.getDivision()) {
+						String divName = d.getName();
+						for (TeamType t : d.getTeam()) {
+							Key k = KeyFactory.createKey(
+									Team.class.getSimpleName(), t.getId());
+							l.add(new Team(k, t.getName(), t.getAlias(), t
+									.getMarket(), divName, confName));
+						}
+					}
+				}
+				PersistenceManager pm = null;
+				try {
+					pm = PMF.get().getPersistenceManager();
+					pm.makePersistentAll(l);
+				} finally {
+					pm.close();
+				}
 
 				Logger.writeLog("Equipes mise-à-jour avec succès");
 			}
-		} catch (IOException | JAXBException e) {
-			Logger.writeLog("Impossible de mettre à jour le contenu de l'équipe : "
-					+ e.getMessage());
+		} catch (Exception e) {
+			String msg = "Impossible de mettre à jour le contenu de l'équipe : "
+					+ e.getMessage();
+			Logger.writeLog(msg);
+			throw new UpdateFailureException(msg);
 		}
 
 	}

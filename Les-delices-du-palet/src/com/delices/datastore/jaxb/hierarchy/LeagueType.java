@@ -5,21 +5,23 @@
 // Generated on: 2013.12.20 at 11:15:42 PM CET 
 //
 
-
 package com.delices.datastore.jaxb.hierarchy;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for leagueType complex type.
+ * <p>
+ * Java class for leagueType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="leagueType">
@@ -37,118 +39,108 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "leagueType", propOrder = {
-    "conference"
-})
+@XmlType(name = "leagueType", propOrder = { "conference" })
 public class LeagueType {
 
-    protected List<ConferenceType> conference;
-    @XmlAttribute(name = "id", required = true)
-    protected String id;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "alias")
-    protected String alias;
+	protected List<ConferenceType> conference;
+	@XmlAttribute(name = "id", required = true)
+	protected String id;
+	@XmlAttribute(name = "name")
+	protected String name;
+	@XmlAttribute(name = "alias")
+	protected String alias;
 
-    /**
-     * Gets the value of the conference property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the conference property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getConference().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ConferenceType }
-     * 
-     * 
-     */
-    public List<ConferenceType> getConference() {
-        if (conference == null) {
-            conference = new ArrayList<ConferenceType>();
-        }
-        return this.conference;
-    }
+	/**
+	 * Gets the value of the conference property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the conference property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getConference().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link ConferenceType }
+	 * 
+	 * 
+	 */
+	public List<ConferenceType> getConference() {
+		if (conference == null) {
+			conference = new ArrayList<ConferenceType>();
+		}
+		return this.conference;
+	}
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getId() {
-        return id;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setId(String value) {
+		this.id = value;
+	}
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-    /**
-     * Gets the value of the alias property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAlias() {
-        return alias;
-    }
+	/**
+	 * Gets the value of the alias property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getAlias() {
+		return alias;
+	}
 
-    /**
-     * Sets the value of the alias property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAlias(String value) {
-        this.alias = value;
-    }
+	/**
+	 * Sets the value of the alias property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setAlias(String value) {
+		this.alias = value;
+	}
 
 }
